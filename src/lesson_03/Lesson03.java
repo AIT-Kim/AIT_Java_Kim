@@ -3,7 +3,7 @@
 //	 Email:    evgeniikim@gmail.com
 //   Author:   Yevhen Kim
 //-------------------------------------------------
-package lesson_02;
+package lesson_03;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.time.DayOfWeek;
 
 
 
-public class Lesson02 {
+public class Lesson03 {
 
     public static void main(String[] args) throws Exception {
         Task_01();

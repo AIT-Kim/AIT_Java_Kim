@@ -3,7 +3,7 @@
 //	 Email:    evgeniikim@gmail.com
 //   Author:   Yevhen Kim
 //-------------------------------------------------
-package lesson_02;
+package lesson_03;
 
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
