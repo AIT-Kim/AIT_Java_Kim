@@ -35,7 +35,7 @@ public class HomeWork04 {
         System.out.print("Введите ваш рост (в метрах): ");
         double height = getDoubleWithFallback(scanner, -1);
 
-        System.out.println("Меня зовут " + firstName + " " + lastName + ", мне " + (age == -1 ? "неизвестен возраст" : age + " лет") + ", я из " + city + ", мой рост - " + (height == -1 ? "неизвестен" : height));
+        System.out.println("Меня зовут " + firstName + " " + lastName + ", мне " + (age == -1 ? "неизвестен возраст" : age + homework_02.HomeWork02.GetAgeString(age)) + ", я из " + city + ", мой рост - " + (height == -1 ? "неизвестен" : height));
     }
 
     private static String getInputWithFallback(Scanner scanner, String fallback) {

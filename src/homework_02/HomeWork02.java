@@ -27,7 +27,7 @@ public class HomeWork02 {
 
     }
 
-    private static String GetAgeString(int age)
+    public static String GetAgeString(int age)
     {
         int ageLastNumber = age % 10;
 
