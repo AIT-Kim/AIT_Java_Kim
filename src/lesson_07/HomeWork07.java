@@ -6,27 +6,27 @@ package lesson_07;
  * @author Yevhen Kim
  */
 
-import java.util.Scanner;
-import java.util.Random;
+import java.util.*;
 
 public class HomeWork07 {
+    private static ResourceBundle messages;
 
     /**
      * Task 0: Ask the user to input a number: 1, 2, or 3 and print which number the user entered.
      */
     public static void getUserInput() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите число (1, 2 или 3): ");
+        System.out.println(messages.getString("enterNumber"));
         String input = scanner.nextLine();
 
         switch (input) {
             case "1":
             case "2":
             case "3":
-                System.out.println("Вы ввели число: " + input);
+                System.out.println(messages.getString("youEntered") + input);
                 break;
             default:
-                System.out.println("Введенное число не является 1, 2 или 3.");
+                System.out.println(messages.getString("not123"));
         }
     }
 
@@ -43,11 +43,11 @@ public class HomeWork07 {
         int num4 = random.nextInt(101);
 
         // Print generated numbers
-        System.out.println("Случайные числа: " + num1 + ", " + num2 + ", " + num3 + ", " + num4);
+        System.out.println(messages.getString("randomNumbers") + num1 + ", " + num2 + ", " + num3 + ", " + num4);
 
         // Determine and print the maximum number
         int max = Math.max(Math.max(num1, num2), Math.max(num3, num4));
-        System.out.println("Максимальное число: " + max);
+        System.out.println(messages.getString("maxNumber") + max);
     }
 
     /**
@@ -56,12 +56,12 @@ public class HomeWork07 {
      */
     public static void checkLuckyTicket() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите четырехзначное число: ");
+        System.out.println(messages.getString("enterFourDigit"));
         String input = scanner.nextLine();
 
         // Check if input is not a 4-digit number
         if (input.length() != 4) {
-            System.out.println("Число не четырехзначное. Завершение работы.");
+            System.out.println(messages.getString("notFourDigit"));
             return;
         }
 
@@ -71,14 +71,20 @@ public class HomeWork07 {
 
         // Check if it is a lucky ticket and print the result
         if (firstHalf == secondHalf) {
-            System.out.println("Число " + input + " является счастливым билетом!");
+            System.out.println(messages.getString("lucky"));
         } else {
-            System.out.println("Число " + input + " НЕ является счастливым билетом.");
+            System.out.println(messages.getString("notLucky"));
         }
     }
 
     // Main method to run all tasks
     public static void main(String[] args) {
+        // Detect the default system locale
+        Locale currentLocale = Locale.getDefault();
+        // Load the appropriate language strings based on the system locale
+        messages = ResourceBundle.getBundle("lesson_07.messages.Messages", currentLocale);
+
+        // Execute tasks sequentially
         getUserInput();
         randomNumbers();
         checkLuckyTicket();
