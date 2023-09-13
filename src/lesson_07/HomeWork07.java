@@ -45,8 +45,19 @@ public class HomeWork07 {
         // Print generated numbers
         System.out.println(messages.getString("randomNumbers") + num1 + ", " + num2 + ", " + num3 + ", " + num4);
 
-        // Determine and print the maximum number
-        int max = Math.max(Math.max(num1, num2), Math.max(num3, num4));
+        // Determine the maximum number using conditional operators
+        int max = num1;
+        if (num2 > max) {
+            max = num2;
+        }
+        if (num3 > max) {
+            max = num3;
+        }
+        if (num4 > max) {
+            max = num4;
+        }
+
+        // Print the maximum number
         System.out.println(messages.getString("maxNumber") + max);
     }
 
