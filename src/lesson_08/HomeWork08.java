@@ -109,7 +109,14 @@ public class HomeWork08 {
                 System.out.println("Трагедия. Сегодня ТВ смотреть запрещено.");
                 remainingTime = 0;
                 break;
+
         }
+
+        // Проверим, чтобы у ребенка не было больше 60 минут на просмотр
+        if (remainingTime > 60) {
+            remainingTime = 60;
+        }
+
         System.out.println("Оставшееся время для просмотра ТВ: " + remainingTime + " " + getCorrectMinuteFormRu(remainingTime));
     }
 
