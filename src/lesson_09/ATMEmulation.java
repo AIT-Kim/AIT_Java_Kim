@@ -24,6 +24,7 @@ public class ATMEmulation {
         put(100, 5);
     }};
     private static int balance = 100 + new Random().nextInt(401);
+    private static final double DEPOSIT_RATE = 0.05; // 5% годовых
 
     public static void main(String[] args) {
         setSessionTimer();
@@ -38,26 +39,36 @@ public class ATMEmulation {
         System.out.println("1. Проверить баланс");
         System.out.println("2. Внести деньги");
         System.out.println("3. Снять деньги");
-        System.out.println("4. Завершить работу");
+        System.out.println("4. Открыть депозит");
+        System.out.println("5. Завершить работу");
 
-        int choice = scanner.nextInt();
-        switch (choice) {
-            case 1:
-                checkBalance();
-                break;
-            case 2:
-                depositMoney();
-                break;
-            case 3:
-                withdrawMoney();
-                break;
-            case 4:
-                System.out.println("Спасибо за использование нашего банкомата!");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Неверный выбор. Попробуйте еще раз.");
-                mainMenu();
+        while (true) {
+            try {
+                int choice = scanner.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        checkBalance();
+                        return;
+                    case 2:
+                        depositMoney();
+                        return;
+                    case 3:
+                        withdrawMoney();
+                        return;
+                    case 4:
+                        openDeposit();
+                        return;
+                    case 5:
+                        System.out.println("Спасибо за использование нашего банкомата!");
+                        System.exit(0);
+                    default:
+                        System.out.println("Неверный выбор. Попробуйте еще раз.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Пожалуйста, введите корректное числовое значение.");
+                scanner.next(); // очистка некорректного ввода
+            }
         }
     }
 
@@ -74,21 +85,33 @@ public class ATMEmulation {
         System.out.println("Когда закончите вносить деньги, введите 0.");
 
         while (true) {
-            int note = scanner.nextInt();
-            if (note == 0) break;
+            try {
+                int note = scanner.nextInt();
 
-            if (availableNotes.containsKey(note)) {
-                balance += note;
-                int currentCount = availableNotes.get(note);
-                availableNotes.put(note, currentCount + 1);
-            } else {
-                System.out.println("Этот номинал не принимается. Попробуйте другую купюру.");
+                if (note == 0) break;
+
+                if (note < 0) {
+                    System.out.println("Введена отрицательная сумма. Введите корректную купюру.");
+                    continue;
+                }
+
+                if (availableNotes.containsKey(note)) {
+                    balance += note;
+                    int currentCount = availableNotes.get(note);
+                    availableNotes.put(note, currentCount + 1);
+                } else {
+                    System.out.println("Этот номинал не принимается. Попробуйте другую купюру.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Введите корректное числовое значение.");
+                scanner.next(); // очистка некорректного ввода
             }
         }
 
         System.out.println("Деньги внесены успешно.");
         mainMenu();
     }
+
 
     private static void withdrawMoney() {
         resetSessionTimer();
@@ -99,45 +122,60 @@ public class ATMEmulation {
         System.out.println("2. 100 евро");
         System.out.println("3. 150 евро");
         System.out.println("4. Введите свою сумму");
+        System.out.println("5. Отмена");
 
-        int choice = scanner.nextInt();
-        int amount;
+        int amount = 0;
+        while (true) {
+            try {
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        amount = 50;
+                        break;
+                    case 2:
+                        amount = 100;
+                        break;
+                    case 3:
+                        amount = 150;
+                        break;
+                    case 4:
+                        System.out.println("Введите сумму, которую хотите снять:");
+                        amount = scanner.nextInt();
+                        if (amount <= 0) {
+                            System.out.println("Введите корректную сумму.");
+                            continue;
+                        }
+                        break;
+                    case 5:
+                        System.out.println("Вы отменили операцию снятия денег.");
+                        mainMenu();
+                        return;
+                    default:
+                        System.out.println("Неверный выбор. Попробуйте еще раз.");
+                        continue;
+                }
 
-        switch (choice) {
-            case 1:
-                amount = 50;
-                break;
-            case 2:
-                amount = 100;
-                break;
-            case 3:
-                amount = 150;
-                break;
-            case 4:
-                System.out.println("Введите сумму, которую хотите снять:");
-                amount = scanner.nextInt();
-                break;
-            default:
-                System.out.println("Неверный выбор. Попробуйте еще раз.");
-                withdrawMoney();
-                return;
+                if (amount > balance) {
+                    System.out.println("Недостаточно средств на балансе.");
+                    mainMenu();
+                    return;
+                }
+
+                if (canDispense(amount)) {
+                    balance -= amount;
+                    System.out.println("Пожалуйста, заберите ваши деньги.");
+                    mainMenu();
+                    return;
+                } else {
+                    System.out.println("Извините, невозможно выдать запрошенную сумму. Попробуйте другую сумму или другой номинал.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Введите корректное значение.");
+                scanner.next(); // очистка некорректного ввода
+            }
         }
-
-        if (amount > balance) {
-            System.out.println("Недостаточно средств на балансе.");
-            mainMenu();
-            return;
-        }
-
-        if (canDispense(amount)) {
-            balance -= amount;
-            System.out.println("Пожалуйста, заберите ваши деньги.");
-        } else {
-            System.out.println("Извините, невозможно выдать запрошенную сумму.");
-        }
-
-        mainMenu();
     }
+
 
     private static boolean canDispense(int amount) {
         Map<Integer, Integer> cloneNotes = new HashMap<>(availableNotes);
@@ -211,6 +249,52 @@ public class ATMEmulation {
             System.out.println("Номинал: " + entry.getKey() + " евро - Количество: " + entry.getValue());
         }
     }
+
+    private static void openDeposit() {
+        resetSessionTimer();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Внесите сумму для открытия депозита. Введите 0 для отказа.");
+
+        int depositAmount;
+        while (true) {
+            try {
+                depositAmount = scanner.nextInt();
+
+                if (depositAmount == 0) {
+                    System.out.println("Вы решили отказаться от открытия депозита.");
+                    mainMenu();
+                    return;
+                }
+
+                if (depositAmount < 0) {
+                    System.out.println("Введена некорректная сумма. Попробуйте еще раз.");
+                    continue;
+                }
+
+                if (depositAmount > balance) {
+                    System.out.println("На вашем счету недостаточно средств.");
+                    openDeposit();
+                    return;
+                }
+
+                break;
+
+            } catch (InputMismatchException e) {
+                System.out.println("Введите корректную сумму.");
+                scanner.next(); // очистка некорректного ввода
+            }
+        }
+
+        double interestRate = 5.0;  // Пример процентной ставки
+        double expectedReturn = depositAmount + (depositAmount * interestRate / 100);
+        balance -= depositAmount;
+
+        System.out.println("Вы успешно открыли депозит на сумму: " + depositAmount + " евро.");
+        System.out.println("Ставка: " + interestRate + "%");
+        System.out.println("Ожидаемая сумма на конец года: " + expectedReturn + " евро.");
+        mainMenu();
+    }
+
 
     private static void terminateSession() {
         System.out.println("Время сеанса истекло. Пожалуйста, начните заново.");
