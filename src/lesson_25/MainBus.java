@@ -1,5 +1,10 @@
 package lesson_25;
-
+/**
+ * 10.10.2023
+ *
+ * @email evgeniikim@gmail.com
+ * @author Yevhen Kim
+ */
 public class MainBus {
 
     public static void main(String[] args) {
