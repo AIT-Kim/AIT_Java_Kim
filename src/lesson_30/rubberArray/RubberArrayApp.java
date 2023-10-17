@@ -1,0 +1,12 @@
+package lesson_30.rubberArray;
+
+public class RubberArrayApp {
+    public static void main(String[] args) {
+        RubberArray ra = new RubberArray();
+        ra.add(10, -5, 16, 57);
+        System.out.println(ra);
+        ra.remove(16);
+        System.out.println(ra);
+
+    }
+}
