@@ -3,8 +3,11 @@ package lesson_30.rubberArray;
 import java.util.Arrays;
 import java.util.Random;
 
+import java.util.Arrays;
+import java.util.Random;
+
 public class RubberArray<T> {
-    private int[] array; // можно инициализировать поле при его объявлении = new int[10];
+    private T[] array; // можно инициализировать поле при его объявлении = new int[10];
     private int cursor;
     static final int MULTIPLIER = 2;
 
@@ -34,9 +37,9 @@ public class RubberArray<T> {
          */
         // ints[0] = 100;
 
-//        for (int value : values) {
-//            add(value);
-//        }
+        for (T value : values) {
+            add(value);
+        }
     }
 
     /* не используем
@@ -77,7 +80,7 @@ public class RubberArray<T> {
         // Если совпадений нет - вернуть минус 1.
 
         for (int i = 0; i < cursor; i++) {
-            if (array[i] == number) return i;
+//            if (array[i] == number) return i;
         }
         return -1;
     }
@@ -85,7 +88,7 @@ public class RubberArray<T> {
     public int lastIndexOf(int number) {
 
         for (int i = cursor - 1; i >= 0; i--) {
-            if (array[i] == number) return i;
+//            if (array[i] == number) return i;
         }
         return -1;
     }
@@ -103,14 +106,14 @@ public class RubberArray<T> {
     public int[] toArray() {
         int[] result = new int[cursor];
         for (int i = 0; i < cursor; i++) {
-            result[i] = (int) array[i];
+//            result[i] = array[i];
         }
         return result;
     }
 
     public void trim() {
         System.out.println("Текущий array1: " + Arrays.toString(array));
-        array = toArray();
+//        array = toArray();
         System.out.println("Текущий array2: " + Arrays.toString(array));
     }
 
@@ -130,14 +133,14 @@ public class RubberArray<T> {
 //        for (int i = 0; i < cursor - 1; i++) {
         for (int i = 0; i < result.length; i++) {
             if (i < index) {
-                result[i] = (int) array[i];
+//                result[i] = array[i];
             } else { // i >= index
-                result[i] = (int) array[i + 1];
+//                result[i] = array[i + 1];
             }
         }
 
         cursor--;
-        array = result;
+//        array = result;
 
         return value;
     }
