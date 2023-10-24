@@ -10,5 +10,6 @@
     <orderEntry type="library" name="httpcore5-5.2.2" level="application" />
     <orderEntry type="library" name="apache.httpcomponents.httpasyncclient" level="project" />
     <orderEntry type="library" name="json-20230618" level="project" />
+    <orderEntry type="library" name="junit.jupiter" level="project" />
   </component>
 </module>
